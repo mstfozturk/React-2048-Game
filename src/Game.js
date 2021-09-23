@@ -1,35 +1,40 @@
-import React, { Component } from 'react';
-import GameBoard from './GameBoard';
-import GameOver from './GameOver';
-import Promise from 'promise';
+import React, { Component } from "react";
+import GameBoard from "./GameBoard";
+import GameOver from "./GameOver";
+import Promise from "promise";
+import Swipe from "react-easy-swipe";
 
 const MOVE_DIR = {
   up: [0, -1],
   down: [0, 1],
   left: [-1, 0],
-  right: [1, 0]
+  right: [1, 0],
 };
 
 let tileUUID = 0;
 
 export default class Game extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.state = this.getInitialState();
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.newTile();
     this.newTile();
     this.handleKeyPress = this.handleKeyPress.bind(this);
-    window.addEventListener('keydown', this.handleKeyPress);
+    this.handleSwipeRight = this.handleSwipeRight.bind(this);
+    this.handleSwipeLeft = this.handleSwipeLeft.bind(this);
+    this.handleSwipeDown = this.handleSwipeDown.bind(this);
+    this.handleSwipeUp = this.handleSwipeUp.bind(this);
+    window.addEventListener("keydown", this.handleKeyPress);
   }
 
-  componentWillUnmount () {
-    window.removeEventListener('keydown', this.handleKeyPress);
+  componentWillUnmount() {
+    window.removeEventListener("keydown", this.handleKeyPress);
   }
 
-  handleKeyPress (ev) {
+  handleKeyPress(ev) {
     let { key } = ev;
 
     if (!this.state.gameStarted) return;
@@ -40,60 +45,79 @@ export default class Game extends Component {
     }
   }
 
-  getInitialState () {
-    let size =  4;
+  handleSwipeRight() {
+    if (!this.state.gameStarted) return;
+    this.move("right");
+  }
+  handleSwipeLeft() {
+    if (!this.state.gameStarted) return;
+    this.move("left");
+  }
+  handleSwipeDown() {
+    if (!this.state.gameStarted) return;
+    this.move("down");
+  }
+  handleSwipeUp() {
+    if (!this.state.gameStarted) return;
+    this.move("up");
+  }
+  
+
+  getInitialState() {
+    let size = 4;
     let cells = [];
     for (let i = 0; i < size; i++) {
-      let row = cells[i] = [];
+      let row = (cells[i] = []);
       for (let j = 0; j < size; j++) {
         row[j] = null;
       }
     }
     return {
-      size, cells,
+      size,
+      cells,
       gameStarted: true,
       additionScores: [],
       score: 0,
-      bestScore: +localStorage.getItem('bestScore')
+      bestScore: +localStorage.getItem("bestScore"),
     };
   }
 
-  eachCell (state, fn) {
+  eachCell(state, fn) {
     return state.cells.forEach((row, i) =>
-        row.forEach((cell, j) => fn(cell, i, j))
-      );
+      row.forEach((cell, j) => fn(cell, i, j))
+    );
   }
 
-  newTile () {
-    this.setState(state => {
+  newTile() {
+    this.setState((state) => {
       let cells = this.state.cells;
       let emptyCells = [];
       // boşları getir ve merge edilecekleri et
       this.eachCell(state, (cell, i, j) => {
-        if(!cell) {
+        if (!cell) {
           emptyCells.push([i, j]);
-        } else if(cell.mergedItem) {
+        } else if (cell.mergedItem) {
           // merge et
           cell.number += cell.mergedItem.number;
-          cell.newMerged = true; // merge edilenler için işaret 
+          cell.newMerged = true; // merge edilenler için işaret
         }
       });
       if (emptyCells.length) {
-        let index = Math.floor(Math.random() * emptyCells.length);   
+        let index = Math.floor(Math.random() * emptyCells.length);
         let [row, cell] = emptyCells[index];
         cells[row][cell] = {
           number: Math.random() > 0.8 ? 4 : 2,
           newGenerated: true,
           newMerged: false,
           mergedItem: null,
-          uuid: tileUUID++
+          uuid: tileUUID++,
         };
       }
-      return {cells};
+      return { cells };
     });
   }
 
-  isMovable () {
+  isMovable() {
     let movable = false;
     let cells = this.state.cells;
     let size = this.state.size;
@@ -107,14 +131,14 @@ export default class Game extends Component {
         return;
       }
       if (i < size - 1) {
-        let bottomCell = cells[i+1][j];
+        let bottomCell = cells[i + 1][j];
         if (bottomCell && bottomCell.number === cell.number) {
           movable = true;
           return;
         }
       }
       if (j < size - 1) {
-        let rightCell = cells[i][j+1];
+        let rightCell = cells[i][j + 1];
         if (rightCell && rightCell.number === cell.number) {
           movable = true;
           return;
@@ -125,13 +149,13 @@ export default class Game extends Component {
     return movable;
   }
 
-  sleep (ms) {
+  sleep(ms) {
     return new Promise((resolve) => {
       setTimeout(resolve, ms);
     });
   }
 
-  move (dir) {
+  move(dir) {
     if (this.isMoving) return;
     let size = this.state.size;
     let cells = this.state.cells;
@@ -139,14 +163,15 @@ export default class Game extends Component {
     let hasMovingTile = false;
     let score = 0;
 
-    for (let i=0; i<size; i++) {
-      for (let j=0; j<size; j++) {
-        let row = i, col = j;
-        if (dir === 'right') {
+    for (let i = 0; i < size; i++) {
+      for (let j = 0; j < size; j++) {
+        let row = i,
+          col = j;
+        if (dir === "right") {
           // sağdan sola tekrarı için reverse et
           col = size - j - 1;
         }
-        if (dir === 'down') {
+        if (dir === "down") {
           // aşağıdan yukarı için reverse
           row = size - i - 1;
         }
@@ -167,7 +192,12 @@ export default class Game extends Component {
         let nextCell;
 
         // oyun alanı dışına çıkma
-        while (nextCol >= 0 && nextCol < size && nextRow >=0 && nextRow < size) {
+        while (
+          nextCol >= 0 &&
+          nextCol < size &&
+          nextRow >= 0 &&
+          nextRow < size
+        ) {
           nextCell = cells[nextRow][nextCol];
           if (nextCell) {
             // gidilen yönde dolu hicre varsa çık
@@ -178,7 +208,11 @@ export default class Game extends Component {
           nextRow += dirOffset[1];
         }
 
-        if (nextCell && !nextCell.mergedItem && nextCell.number === cell.number) {
+        if (
+          nextCell &&
+          !nextCell.mergedItem &&
+          nextCell.number === cell.number
+        ) {
           // başka hücreyle birleşmemiş aynı sayılı hücreyi al
           cell.mergedItem = nextCell;
           cells[nextRow][nextCol] = cell;
@@ -202,66 +236,75 @@ export default class Game extends Component {
     if (hasMovingTile) {
       this.isMoving = true;
 
-      this.setState(state => {
+      this.setState((state) => {
         let nextState = {
           cells,
-          score: state.score + score
+          score: state.score + score,
         };
         if (score) {
-          nextState.additionScores = [...state.additionScores, {score, key: Date.now()}];
+          nextState.additionScores = [
+            ...state.additionScores,
+            { score, key: Date.now() },
+          ];
         }
         return nextState;
       });
 
       // yeni sayı için beklet
-      this.sleep(100)
-        .then(() => {
-          this.newTile();
-          this.checkGameStatus();
-          this.isMoving = false;
-        });
+      this.sleep(100).then(() => {
+        this.newTile();
+        this.checkGameStatus();
+        this.isMoving = false;
+      });
     }
   }
 
-  checkGameStatus () {
+  checkGameStatus() {
     let movable = this.isMovable();
     if (!movable) {
       //oyun bitti kontrolü
       let bestScore = this.state.bestScore;
       if (bestScore < this.state.score) {
         bestScore = this.state.score;
-        localStorage.setItem('bestScore', bestScore);
+        localStorage.setItem("bestScore", bestScore);
       }
-      this.setState({gameStarted: false, bestScore});
+      this.setState({ gameStarted: false, bestScore });
     }
   }
 
-  render () {
+  render() {
     return (
-      <div>
+      <Swipe
+        allowMouseEvents={true}
+        onSwipeRight={this.handleSwipeRight}
+        onSwipeLeft={this.handleSwipeLeft}
+        onSwipeUp={this.handleSwipeUp}
+        onSwipeDown={this.handleSwipeDown}
+      >
         <GameBoard
           {...this.state}
-          onAdditionScoreAnimationEnd={this.handleAdditionScoreAnimationEnd.bind(this)}
+          onAdditionScoreAnimationEnd={this.handleAdditionScoreAnimationEnd.bind(
+            this
+          )}
           onNewGame={this.startNewGame.bind(this)}
-          onSwipe={this.move.bind(this)}
         >
-          {!this.state.gameStarted &&
+          {!this.state.gameStarted && (
             <GameOver onNewGame={this.startNewGame.bind(this)}></GameOver>
-          }
+          )}
         </GameBoard>
-      </div>
+      </Swipe>
     );
   }
 
-  handleAdditionScoreAnimationEnd (ev, scoreItem, index) {
-    this.setState(state => {
+  handleAdditionScoreAnimationEnd(ev, scoreItem, index) {
+    this.setState((state) => {
       let additionScores = state.additionScores;
       //skorun üstüne eklememek için animasyondan sonra arrayi boşalttım
-      return {additionScores: [ ...additionScores.slice(index+1)]};
+      return { additionScores: [...additionScores.slice(index + 1)] };
     });
   }
 
-  startNewGame () {
+  startNewGame() {
     setTimeout(() => {
       tileUUID = 0;
       this.setState(this.getInitialState());

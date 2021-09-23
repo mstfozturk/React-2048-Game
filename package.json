@@ -5,7 +5,8 @@
   "homepage": "https://react-2048-game.vercel.app/",
   "dependencies": {
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-easy-swipe": "^0.0.22"
   },
   "devDependencies": {
     "gh-pages": "^3.1.0",
@@ -24,5 +25,4 @@
   "repository": "https://github.com/mstfozturk/react-2048",
   "author": "mstfozturk@icloud.com",
   "license": "MIT"
-
 }
