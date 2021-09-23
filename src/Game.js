@@ -61,7 +61,6 @@ export default class Game extends Component {
     if (!this.state.gameStarted) return;
     this.move("up");
   }
-  
 
   getInitialState() {
     let size = 4;
