@@ -77,7 +77,7 @@ export default class Game extends Component {
       gameStarted: true,
       additionScores: [],
       score: 0,
-      bestScore: +localStorage.getItem("bestScore"),
+      bestScore: +localStorage.getItem("mstf2048BestScore"),
     };
   }
 
