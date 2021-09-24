@@ -43,7 +43,7 @@ export default class HeaderBox extends Component {
         <ScoreBox score={props.bestScore} label="BEST SKOR" />
         <div className="desc-txt">
           <br/>
-          Ok tuşlarını kullanarak <span className="bold">2048 elde et.</span>
+          Aynı sayıları birleştirerek <span className="bold">2048 i elde et.</span>
         </div>
         <button className="new-game-btn" onClick={props.onNewGame}>Yeni Oyun</button>
       </div>
