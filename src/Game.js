@@ -61,7 +61,6 @@ export default class Game extends Component {
     if (!this.state.gameStarted) return;
     this.move("up");
   }
-  
 
   getInitialState() {
     let size = 4;
@@ -280,6 +279,8 @@ export default class Game extends Component {
         onSwipeLeft={this.handleSwipeLeft}
         onSwipeUp={this.handleSwipeUp}
         onSwipeDown={this.handleSwipeDown}
+        tolerance={100}
+        
       >
         <GameBoard
           {...this.state}
