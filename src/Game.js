@@ -265,7 +265,7 @@ export default class Game extends Component {
       let bestScore = this.state.bestScore;
       if (bestScore < this.state.score) {
         bestScore = this.state.score;
-        localStorage.setItem("bestScore", bestScore);
+        localStorage.setItem("mstf2048BestScore", bestScore);
       }
       this.setState({ gameStarted: false, bestScore });
     }
