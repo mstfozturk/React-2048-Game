@@ -1,4 +1,4 @@
-.tile{
+.tile {
   width: 100px;
   height: 100px;
   line-height: 100px;
@@ -8,24 +8,24 @@
   position: absolute;
   top: 0;
   left: 0;
-  transition: transform .1s ease;
+  transition: transform 0.1s ease;
 }
-.tile-inner{
+.tile-inner {
   border-radius: 5px;
 }
 
-.tile-new .tile-inner{
-  animation: a-tile-new .2s ease;
+.tile-new .tile-inner {
+  animation: a-tile-new 0.2s ease;
 }
-.tile-merged{
+.tile-merged {
   z-index: 1;
 }
-.tile-merged .tile-inner{
-  animation: a-tile-merged .2s ease both;
+.tile-merged .tile-inner {
+  animation: a-tile-merged 0.2s ease both;
 }
 
 .tile-2 .tile-inner {
-    background: #eee4da;
+  background: #eee4da;
 }
 .tile-4 .tile-inner {
   background: #ede0c8;
@@ -49,56 +49,60 @@
 .tile-128 .tile-inner {
   color: #f9f6f2;
   background: #edcf72;
-  box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.2381), inset 0 0 0 1px rgba(255, 255, 255, 0.14286);
+  box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.2381),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14286);
   font-size: 48px;
 }
 
 .tile-256 .tile-inner {
   color: #f9f6f2;
   background: #edcc61;
-  box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.31746), inset 0 0 0 1px rgba(255, 255, 255, 0.19048);
+  box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.31746),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.19048);
   font-size: 48px;
 }
 
 .tile-512 .tile-inner {
   color: #f9f6f2;
   background: #edc850;
-  box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.39683), inset 0 0 0 1px rgba(255, 255, 255, 0.2381);
+  box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.39683),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.2381);
   font-size: 48px;
 }
 
 .tile-1024 .tile-inner {
   color: #f9f6f2;
   background: #edc53f;
-  box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.47619), inset 0 0 0 1px rgba(255, 255, 255, 0.28571);
+  box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.47619),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.28571);
   font-size: 36px;
 }
 
 .tile-2048 .tile-inner {
   color: #f9f6f2;
   background: #edc22e;
-  box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.55556), inset 0 0 0 1px rgba(255, 255, 255, 0.33333);
+  box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.55556),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.33333);
   font-size: 36px;
 }
 
-
-@keyframes a-tile-new{
-  from{
+@keyframes a-tile-new {
+  from {
     transform: scale(0);
   }
-  to{
+  to {
     transform: scale(1);
   }
 }
 
-@keyframes a-tile-merged{
-  from{
+@keyframes a-tile-merged {
+  from {
     transform: scale(0);
   }
-  96%{
+  96% {
     transform: scale(1.16);
   }
-  to{
+  to {
     transform: scale(1);
   }
 }

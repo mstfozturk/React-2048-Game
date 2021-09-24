@@ -280,7 +280,6 @@ export default class Game extends Component {
         onSwipeUp={this.handleSwipeUp}
         onSwipeDown={this.handleSwipeDown}
         tolerance={100}
-        
       >
         <GameBoard
           {...this.state}

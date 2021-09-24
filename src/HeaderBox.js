@@ -1,12 +1,15 @@
-import React, { Component } from 'react';
-import './HeaderBox.css';
+import React, { Component } from "react";
+import "./HeaderBox.css";
 
 class ScoreBox extends Component {
-  shouldComponentUpdate (nextProps) {
-    return this.props.score !== nextProps.score || this.props.children !== nextProps.children;
+  shouldComponentUpdate(nextProps) {
+    return (
+      this.props.score !== nextProps.score ||
+      this.props.children !== nextProps.children
+    );
   }
 
-  render () {
+  render() {
     let { label, score, children } = this.props;
     return (
       <div className="score-box">
@@ -19,33 +22,41 @@ class ScoreBox extends Component {
 }
 
 export default class HeaderBox extends Component {
-  shouldComponentUpdate ({score, bestScore, additionScores}) {
+  shouldComponentUpdate({ score, bestScore, additionScores }) {
     let props = this.props;
-    return props.score !== score ||
+    return (
+      props.score !== score ||
       props.bestScore !== bestScore ||
-      props.additionScores !== additionScores;
+      props.additionScores !== additionScores
+    );
   }
 
-  render () {
+  render() {
     let props = this.props;
     return (
       <div className="header-box">
         <h1 className="title">2048</h1>
         <ScoreBox score={props.score} label="SKOR">
-        {
-          props.additionScores.map((score, i) =>
-            <div className="addition-score" key={score.key}
-              onAnimationEnd={(e) => props.onAdditionScoreAnimationEnd(e, score, i)}
-            >+{score.score}</div>
-          )
-        }
+          {props.additionScores.map((score, i) => (
+            <div
+              className="addition-score"
+              key={score.key}
+              onAnimationEnd={(e) =>
+                props.onAdditionScoreAnimationEnd(e, score, i)
+              }
+            >
+              +{score.score}
+            </div>
+          ))}
         </ScoreBox>
         <ScoreBox score={props.bestScore} label="BEST SKOR" />
         <div className="desc-txt">
-          <br/>
+          <br />
           Ok tuşlarını kullanarak <span className="bold">2048 elde et.</span>
         </div>
-        <button className="new-game-btn" onClick={props.onNewGame}>Yeni Oyun</button>
+        <button className="new-game-btn" onClick={props.onNewGame}>
+          Yeni Oyun
+        </button>
       </div>
     );
   }

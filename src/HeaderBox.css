@@ -1,24 +1,24 @@
-.header-box{
+.header-box {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   align-content: space-around;
   justify-content: space-between;
 }
-.header-box .title{
+.header-box .title {
   width: 46%;
   font-size: 72px;
   margin: 0;
-  line-height: .8em;
+  line-height: 0.8em;
 }
-.desc-txt{
+.desc-txt {
   margin: 12px 0;
   font-size: 16px;
 }
-.desc-txt .bold{
+.desc-txt .bold {
   font-weight: bold;
 }
-.new-game-btn{
+.new-game-btn {
   padding: 12px 0;
   width: 25%;
   border: 0;
@@ -30,13 +30,13 @@
   font-weight: bold;
   outline: 0;
 }
-.new-game-btn:hover{
+.new-game-btn:hover {
   background: #9c8c7c;
 }
-.new-game-btn:active{
+.new-game-btn:active {
   background: #807060;
 }
-.score-box{
+.score-box {
   width: 25%;
   font-weight: bold;
   color: #faf8ef;
@@ -46,14 +46,14 @@
   padding: 5px 0;
   border-radius: 5px;
 }
-.score-box .score-lable{
+.score-box .score-lable {
   font-size: 14px;
 }
-.score-box .score-content{
+.score-box .score-content {
   font-size: 28px;
   color: white;
 }
-.score-box .addition-score{
+.score-box .addition-score {
   font-size: 26px;
   color: #776e65;
   position: absolute;
@@ -64,14 +64,14 @@
   right: 0;
   bottom: 0;
   left: 0;
-  animation: a-raise-up .6s linear both;
+  animation: a-raise-up 0.6s linear both;
 }
-@keyframes a-raise-up{
-  from{
+@keyframes a-raise-up {
+  from {
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
-  50%{
+  50% {
     opacity: 1;
     transform: translate3d(0, -100%, 0);
   }
